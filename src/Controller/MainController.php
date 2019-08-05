@@ -3,12 +3,15 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 class MainController extends AbstractController
 {
     /**
      * @Route("/main", name="main")
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
     public function index()
     {
