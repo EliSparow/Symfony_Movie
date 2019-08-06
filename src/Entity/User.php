@@ -41,19 +41,19 @@ class User implements UserInterface
     private $admin;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="string", length=255)
+     */
+    private $username;
+
+    /**
+     * @ORM\Column(type="datetime", options={"default" : "CURRENT_TIMESTAMP"})
      */
     private $Created_at;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", columnDefinition="DATETIME default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP",  options={"default" : "CURRENT_TIMESTAMP"})
      */
     private $Updated_at;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $username;
 
     public function getId(): ?int
     {
@@ -148,6 +148,30 @@ class User implements UserInterface
     public function setUsername(string $username): self
     {
         $this->username = $username;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->Created_at;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $Created_at): self
+    {
+        $this->Created_at = $Created_at;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->Updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $Updated_at): self
+    {
+        $this->Updated_at = $Updated_at;
 
         return $this;
     }
