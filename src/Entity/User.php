@@ -79,7 +79,7 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string) $this->username;
     }
 
     /**
@@ -174,5 +174,25 @@ class User implements UserInterface
         $this->Updated_at = $Updated_at;
 
         return $this;
+    }
+
+    public function __construct() {
+        // we set up "created"+"modified"
+        $roles[] = 'ROLE_USER';
+        $this->setRoles($roles);
+        $this->setAdmin(0);
+        $this->setCreatedAt(new \DateTime());
+        if ($this->getUpdatedAt() == null) {
+            $this->setUpdatedAt(new \DateTime());
+        }
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateModifiedDatetime() {
+        // update the modified time
+        $this->setUpdatedAt(new \DateTime());
     }
 }

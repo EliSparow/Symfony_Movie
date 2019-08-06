@@ -10,15 +10,18 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="/">Symfony Movies</a>
+            <a class="navbar-brand text-warning" href="/">Symfony Movies</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMenu">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ml-auto">
                     {% if app.user %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile">{{ app.user.username|capitalize }}</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_logout') }}">Log Out</a>
                     </li>
