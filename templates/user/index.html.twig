@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User index{% endblock %}
+
+{% block body %}
+    <h1>User index</h1>
+    <div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+            {% if app.user.admin %}
+                <th scope="col">Id</th>
+            {% endif %}
+                <th scope="col">Username</th>
+                <th scope="col">Email</th>
+                <!-- <th scope="col">Roles</th>
+                <th scope="col">Password</th> -->
+            {% if app.user.admin %}
+                <th scope="col">Admin</th>
+            {% endif %}
+                <th scope="col">Created_at</th>
+                <th scope="col">Updated_at</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+            {% if app.user.admin %}
+                <td>{{ user.id }}</td>
+            {% endif %}
+                <td><a href="{{ path('user_show', {'id': user.id}) }}">{{ user.username }}</a></td>
+                <td>{{ user.email }}</td>
+                <!-- <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                <td>{{ user.password }}</td> -->
+            {% if app.user.admin %}
+                <td>{{ user.admin ? 'Yes' : 'No' }}</td>
+            {% endif %}
+                 <td>{{ user.CreatedAt ? user.CreatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ user.UpdatedAt ? user.UpdatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
+                    {% if app.user.id == user.id or app.user.admin %}
+                    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+{% if app.user.admin %}
+    <a href="{{ path('user_new') }}">Create new</a>
+{% endif %}
+{% endblock %}
