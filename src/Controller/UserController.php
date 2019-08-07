@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserType;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -89,7 +90,7 @@ class UserController extends AbstractController
     public function edit(Request $request, User $user, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         if ($this->getUser()->getAdmin() == true || $user->getId() == $this->getUser()->getId()) {
-            $form = $this->createForm(RegistrationFormType::class, $user);
+            $form = $this->createForm(UserType::class, $user);
             $form->handleRequest($request);
 
             // echo($this->getUser()->getId());
@@ -98,12 +99,13 @@ class UserController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 // encode the plain password
                 $user->updateModifiedDatetime();
-                $user->setPassword(
-                $passwordEncoder->encodePassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
+                if($form->get('plainPassword')->getData() != ''){
+                    $user->setPassword(
+                    $passwordEncoder->encodePassword(
+                        $user,
+                        $form->get('plainPassword')->getData()
+                    ));
+                }
 
                 $this->getDoctrine()->getManager()->flush();
 

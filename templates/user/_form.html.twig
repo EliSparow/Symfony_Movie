@@ -7,6 +7,9 @@
                 {{ form_start(form) }}
                 {{ form_row(form.username) }}
                 {{ form_row(form.email) }}
+                {% if title == 'Edit User' %}
+                {{ form_row(form.admin) }}
+                {% endif %}
                 {{ form_row(form.plainPassword) }}
                 <button class="btn btn-warning btn-block">{{ button_label|default('Save') }}</button>
                 {{ form_end(form) }}
