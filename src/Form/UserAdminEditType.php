@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Email;
 
-class UserType extends AbstractType
+class UserAdminEditType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -28,7 +28,6 @@ class UserType extends AbstractType
                     new Email(['message' => 'Please enter a valid email address.'])
                 ]
              ])
-            ->add('admin')
             ->add('plainPassword', RepeatedType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller

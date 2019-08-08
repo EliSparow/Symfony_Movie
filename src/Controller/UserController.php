@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserAdminEditType;
 use App\Form\UserType;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
@@ -90,7 +91,11 @@ class UserController extends AbstractController
     public function edit(Request $request, User $user, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         if ($this->getUser()->getAdmin() == true || $user->getId() == $this->getUser()->getId()) {
-            $form = $this->createForm(UserType::class, $user);
+            if($this->getUser()->getAdmin())
+                $form = $this->createForm(UserType::class, $user);
+            else
+                $form = $this->createForm(UserAdminEditType::class, $user);
+                
             $form->handleRequest($request);
 
             // echo($this->getUser()->getId());
@@ -106,7 +111,6 @@ class UserController extends AbstractController
                         $form->get('plainPassword')->getData()
                     ));
                 }
-
                 $this->getDoctrine()->getManager()->flush();
 
                 return $this->redirectToRoute('user_index');
